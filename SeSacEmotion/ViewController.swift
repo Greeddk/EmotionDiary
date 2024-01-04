@@ -20,13 +20,17 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         setNavigationBar()
-        randomCount()
+        if !UserDefaults.standard.bool(forKey: "isNotInitial") {
+            randomCount()
+        }
+        setLabel()
         setImages()
     }
     
     @IBAction func slimeButtonClicked(_ sender: UIButton) {
         
         emotionList[sender.tag].Count += 1
+        UserDefaults.standard.set(emotionList[sender.tag].Count, forKey: "\(sender.tag)")
         setImages()
     }
     
@@ -51,9 +55,17 @@ class ViewController: UIViewController {
         
     }
     
-    func randomCount() {
+    func setLabel() {
         for i in 0...emotionList.count - 1 {
-            emotionList[i].Count = .random(in: 0...100)
+            emotionList[i].Count = UserDefaults.standard.integer(forKey: "\(i)")
+        }
+    }
+    func randomCount() {
+        UserDefaults.standard.set(true, forKey: "isNotInitial")
+        for i in 0...emotionList.count - 1 {
+            let randomNumber = Int.random(in: 0...100)
+            UserDefaults.standard.set(randomNumber, forKey: "\(i)")
+            emotionList[i].Count = UserDefaults.standard.integer(forKey: "\(i)")
         }
     }
     
