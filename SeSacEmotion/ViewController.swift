@@ -20,7 +20,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         setNavigationBar()
-        randomCount()
+        initialRandomCount()
         setLabel()
         setImages()
     }
@@ -58,7 +58,17 @@ class ViewController: UIViewController {
             emotionList[i].Count = UserDefaults.standard.integer(forKey: "\(i)")
         }
     }
+    
     func randomCount() {
+        
+        for i in 0...emotionList.count - 1 {
+            let randomNumber = Int.random(in: 0...100)
+            UserDefaults.standard.set(randomNumber, forKey: "\(i)")
+            emotionList[i].Count = UserDefaults.standard.integer(forKey: "\(i)")
+        }
+    }
+    
+    func initialRandomCount() {
         if !UserDefaults.standard.bool(forKey: "isNotInitial") {
             UserDefaults.standard.set(true, forKey: "isNotInitial")
             for i in 0...emotionList.count - 1 {
